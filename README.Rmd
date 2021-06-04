@@ -5,4 +5,23 @@ date: "6/4/2021"
 output: html_document
 ---
 
-#How to edit this package
+#How call this package: 
+```{r}
+install_github('AmberlyDziesinski/ds')
+library(ds)
+
+data("vote_gov_states")
+data("vote_pres_national")
+data("vote_pres_primaries")
+data("vote_pres_states")
+data("vote_sen_states")
+data("hsls")
+
+?vote_gov_states
+?vote_pres_national
+?vote_pres_primaries
+?vote_pres_states
+?vote_sen_states
+?hsls
+```
+
