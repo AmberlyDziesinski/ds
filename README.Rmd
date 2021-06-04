@@ -1,0 +1,8 @@
+---
+title: "README"
+author: "Amberly Dziesinski"
+date: "6/4/2021"
+output: html_document
+---
+
+#How to edit this package

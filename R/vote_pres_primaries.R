@@ -1,0 +1,40 @@
+#'
+#' Statewide Presidential Primaries Polling Data
+#'
+#' Loads clean version of presidential primaries polling data into the environment. This dataset includes polling data and elections outcomes for presidential primaries in 2000, 2004, 2008, 2012, and 2016.
+#' @usage data(vote_pres_primaries)
+#'
+#' @format
+#' Data are structured as one observation per poll.
+#' Variables include:
+#' \describe{
+#'   \item{year}{Year of election}
+#'   \item{race}{Type of election race}
+#'   \item{state}{State abbreviation}
+#'   \item{pollster}{Organization conducingthe poll and weighting}
+#'   \item{sample_size}{The number of respondents who completed the poll}
+#'   \item{election date}{The date of the primary election}
+#'   \item{winner}{The name of the winning candidate}
+#'   \item{winner_pct}{The percentage of respondents supporting the winning candidate}
+#'   \item{runnerup}{The name of the runner up (second place) candidate}
+#'   \item{runnerup_pct}{The percentage of respondents supporting the runner up (second place) candidate}
+#'   \item{moe}{Reported margin of error for the surveys; calculated as the sample proportion of respondents supporting the Democratic candidate in unreported (commonly unreported for internet surveys) }
+#'   \item{poll_margin}{Poll margin between candidates, calculated as (dem_poll-rep_poll)}
+#'   \item{poll_vote_margin}{Difference between the poll margin and vote margin, calculated as ((dem_poll-rep_poll)-(dem_vote-rep_vote))}
+#'   \item{error_on_margin}{Error on poll-vote margin, calculated as the absolute value of ((dem_poll-rep_poll)-(dem_vote-rep_vote))}
+#'   \item{vote_margin}{Difference between Democrat and Republican vote, calculated as (dem_vote-rep_vote)}
+#'   \item{winner_projected}{Indicator that the poll correctly predicted the winner: 1=yes, 0=no}
+#'  }
+#'
+#' @details
+#' These data were cleaned for the purpose of Data Science 1000 in the following way: variables with substantial missing data were removed (for example, if a variable was not reported in most years), and the margin of error was calculated where unreported using the sample proportion of respondents supporting the winning candidate.
+#'
+#' @source
+#' The historical data comes from three sources.  General election data (national presidential, statewide presidential, senate, and governor) prior to 2012 are from the National Council on Public Polls (http://www.ncpp.org/) website.  National and Statewide presidential polls in 2016 are from the 2016 AAPOR Task Force on Pre-Election polls, as are the primary polls from 2000, 2004, 2008, and 2012.  Data for the 2018 Midterm Elections was collected by a task force created in 2018 at the request of AAPOR Council President David Dutwin consisting of Evans Witt (PSRAI), Scott Clement (Washington Post) and Ariel Edwards-Levy (Huffington Post).
+#'
+#' @examples
+#' # Run descriptive statistics on the data:
+#' #hist(moe)
+#' #table(winner)
+#' #mean(sample_size)
+"vote_pres_primaries"
