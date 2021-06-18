@@ -9,74 +9,146 @@ library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Analyzing Data: Conditional Means
-The conditional mean will be our first predictive algorithm. Conditional means answer the question: "Given what we know about a certain case, what can expect to see, on average?" The conditional mean is a powerful tool that is typically quite easy to explain to decision-makers.
+# Practice: Conditional Means
 
-We'll go through the following steps:
 
-1.  Computing and unconditional means
-2.  Computing conditional means using a single predictor and calculating our error.
-3.  Computing conditional means using multiple predictors and calculating our error.
+## Motivating Example
+Suppose you are a high school counselor trying to predict student GPAs as a function of other student characteristics. 
 
-## Topic 1
+We will use the High School Longitudinal Data to answer these questions. 
 
-### Exercise 
+First, load the data and packages. You will need ds, tidyverse, yardstick, and the hsls_clean data. 
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+```{r load_data, exercise=TRUE}
+library(ds)
+library(tidyverse)
+library(yardstick)
+data("hsls_clean")
+```
 
-Write the R code required to add two plus two:
+## Unconditional Means 
+If the only information we had about students was their GPA, our best guess for a given student's GPA would be the school's average GPA. 
 
-```{r two-plus-two, exercise=TRUE}
+Calculate the average GPA, use the mutate command to make a new variable for the prediction:  
+
+```{r unconditional, exercise=TRUE, exercise.eval=TRUE}
 
 ```
 
-### Exercise with Code
-
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
-
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
+```{r unconditional-hint}
+#Fill in the blanks with the functions to make a new variable that is the mean of GPA
+hsls_clean<-hsls_clean%>%
+  _____(mean_gpa_uncond=_____(gpa,na.rm=TRUE))
 ```
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
+```{r unconditional-solution, exercise.reveal_solution = TRUE}
+hsls_clean<-hsls_clean%>%
+  mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
 ```
 
-```{r print-limit-hint}
-head(mtcars)
+How far off on average is the mean from a given student's actual GPA? 
+
+```{r rmse, exercise=TRUE, exercise.eval=TRUE}
+
 ```
 
-### Quiz
+```{r rmse-hint-1}
+#Calculate the RMSE 
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+```
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+```{r rmse-hint-2}
+#Use the RMSE function
+rmse_uncond<-hsls_clean%>%____(gpa,mean_gpa_uncond)
+rmse_uncond
+```
 
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r rmse-solution}
+rmse_uncond<-hsls_clean%>%rmse(gpa,mean_gpa_uncond)
+rmse_uncond
+```
+
+## Conditional Mean with One Predictor
+We think that there may be a relationship between a student's GPA and if they have taken AP or IB classes. Maybe these students have lower GPAs because these classes are graded more rigorously. Or maybe these students have higher GPAs because students are only allowed to take AP/IB if they have a high GPA to begin with. Generate a table of the conditional mean of the outcome variable by levels of the predictor variable.
+
+```{r conditional1, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r conditional1-hint-1}
+#Use the group_by, summarize, and mean functions
+#GPA is the outcome, AP/IB is the predictor variable 
+```
+
+```{r conditional1-hint-2}
+hsls_clean%>%
+  _____(ap_ib_credit)%>%
+  _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%>%
+  arrange(mean_gpa_ap)
+```
+
+```{r conditional1-solution}
+hsls_clean%>%
+  group_by(ap_ib_credit)%>%
+  summarize(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  arrange(mean_gpa_ap)
+```
+
+##Is this a better predictor?
+Is the conditional mean a better predictor of GPA than the unconditional mean? 
+First, make a prediction for GPA at each level of AP/IB and add that to your dataset. 
+```{r conditional_mutate1, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r conditional_mutate1-hint-1}
+#Use the mutate function
+
+```
+
+```{r conditional_mutate1-hint-2}
+hsls_clean%>%
+  _____(ap_ib_credit)%>%
+  _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%>%
+  arrange(mean_gpa_ap)
+```
+
+```{r conditional_mutate1-solution}
+hsls_clean%>%
+  group_by(ap_ib_credit)%>%
+  mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  ungroup()
+```
+
+
+
+Second, compare your RMSEs. 
+
+```{r conditional1_rmse, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r conditional1_rmse-hint-1}
+#use the RMSE function
+```
+
+```{r conditional1_rmse-hint-2}
+rmse_ap<-hsls_clean%>%____(ap_ib_credit,mean_gpa_ap)
+rmse_ap
+```
+
+```{r conditional1_rmse-solution}
+rmse_ap<-hsls_clean%>%rmse(ap_ib_credit,mean_gpa_ap)
+rmse_ap
+
+```
+
+
+```{r letter-a, echo=FALSE}
+question("Is the conditional or unconditional mean a better predictor of student GPA in this case?",
+  answer("conditional", correct = TRUE),
+  answer("unconditional")
 )
 ```
+
+

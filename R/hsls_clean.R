@@ -1,0 +1,39 @@
+#'
+#'HSLS Data
+#'
+#'Loads clean version of High School Longitudinal Study (HSLS) data into the environment
+#' @usage data(hsls_clean)
+#' @details The data in this file were collected by the National Center for Education Statistics (NCES) for the High School Longitudinal Study of 2009. Full data files and codebooks can be downloaded from \url{https://nces.ed.gov/OnlineCodebook}. Data were cleaned to exclude students with missing data and students who did not attend a four-year college.
+#' @format
+#' Data are structured as one observation per individual.
+#' Variables include:
+#' \describe{
+#'   \item{student_id}{Student identifier assigned for all base year eligible students (including respondents, nonrespondents, and questionnaire incapable students). Numeric value ranging from 10001 to 35206}
+#'   \item{sex}{Sex of the student. Categories: Male; Female}
+#'   \item{race}{Race of the student. Categories: Amer. Indian/Alaska Native, non-Hispanic; Asian, non-Hispanic; Black/African-American, non-Hispanic; Hispanic, no race specified; Hispanic, race specified; More than one race, non-Hispanic; Native Hawaiian/Pacific Islander, non-Hispanic; White, non-Hispanic }
+#'   \item{hispanic}{Student is Hispanic. Categories: Yes; No}
+#'   \item{family_income}{Categorical variable indicating the student's family's income from all sources in 2008. Categories: Family income less than or equal to $15,000; Family income > $15,000 and <= $35,000; Family income > $35,000 and <= $55,000; Family income > $55,000 and <= $75,000; Family income > $75,000 and <= $95,000; Family income > $95,000 and <= $115,000; Family income > $115,000 and <= $135,000; Family income > $135,000 and <= $155,000; Family income > $155,000 and <=$175,000; Family income > $175,000 and <= $195,000; Family income > $195,000 and <= $215,000; Family income > $215,000 and <= $235,000; Family income > $235,000 }
+#'   \item{ses}{Composite variable to measure a construct for socioeconomic status. Calculated using a combination of parental education, occupation, and family income. Continuous variable ranging from -1.7526 to 2.5668}
+#'   \item{ap_ib_credit}{Total credits the student earned from Advanced Placement (AP) and International Baccalaureate (IB) courses while in high school. Continuous variable ranging from 0 to 13}
+#'   \item{gpa}{Student's overall GPA. Continuous variable ranging from 0.0 to 4.0}
+#'   \item{hours_extracurricular}{Hours student spent on extracurricular activities on a typical school day. Categories include: Less than 1 hour; 1 to 2 hours; 2 to 3 hours; 3 to 4 hours; 4 to 5 hours; 5 or more hours}
+#'   \item{college_tour}{Did the student attend a program at, or take a tour of a college campus? Categories: Yes; No}
+#'   \item{music}{Did the student participate in music or dance while in high school? Categories: Yes; No}
+#'   \item{art}{Did the student participate in art while in high school? Categories: Yes; No}
+#'   \item{drama}{Did the student participate in theater or drama while in high school? Categories: Yes; No}
+#'   \item{sports}{Did the student participate in organized sports while in high school? Categories: Yes; No}
+#'   \item{other_club}{Did the student participate in other club/group/scouting while in high school? Categories: Yes; No}
+#'   \item{worked_job}{Did the student ever work for pay while in high school? Categories: Yes; No}
+#' }
+#' @examples
+#' # Run descriptive statistics on the data:
+#' # hist(gpa)
+#' # table(family_income)
+#' # mean(ap_ib_credit)
+#' @source \url{https://nces.ed.gov/OnlineCodebook}
+
+"hsls_clean"
+
+
+
+
