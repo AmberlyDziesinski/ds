@@ -6,7 +6,10 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+#knitr::opts_chunk$set(echo = FALSE)
+#knitr::opts_chunk$set(cache = TRUE)
+#knitr::opts_chunk$set(cache.globals = TRUE)
+#knitr::opts_chunk$set(dependson = TRUE)
 ```
 
 # Practice: Conditional Means
@@ -26,7 +29,7 @@ library(yardstick)
 data("hsls_clean")
 ```
 
-## Unconditional Means 
+### Unconditional Means 
 If the only information we had about students was their GPA, our best guess for a given student's GPA would be the school's average GPA. 
 
 Calculate the average GPA, use the mutate command to make a new variable for the prediction:  
@@ -42,13 +45,14 @@ hsls_clean<-hsls_clean%>%
 ```
 
 ```{r unconditional-solution, exercise.reveal_solution = TRUE}
+#Solution
 hsls_clean<-hsls_clean%>%
   mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
 ```
 
 How far off on average is the mean from a given student's actual GPA? 
 
-```{r rmse, exercise=TRUE, exercise.eval=TRUE}
+```{r rmse, exercise=TRUE, exercise.eval=TRUE, dependson = 3}
 
 ```
 
@@ -63,12 +67,13 @@ rmse_uncond<-hsls_clean%>%____(gpa,mean_gpa_uncond)
 rmse_uncond
 ```
 
-```{r rmse-solution}
+```{r rmse-solution, exercise.reveal_solution = TRUE}
+#Solution
 rmse_uncond<-hsls_clean%>%rmse(gpa,mean_gpa_uncond)
 rmse_uncond
 ```
 
-## Conditional Mean with One Predictor
+### Conditional Mean with One Predictor
 We think that there may be a relationship between a student's GPA and if they have taken AP or IB classes. Maybe these students have lower GPAs because these classes are graded more rigorously. Or maybe these students have higher GPAs because students are only allowed to take AP/IB if they have a high GPA to begin with. Generate a table of the conditional mean of the outcome variable by levels of the predictor variable.
 
 ```{r conditional1, exercise=TRUE, exercise.eval=TRUE}
@@ -84,17 +89,18 @@ We think that there may be a relationship between a student's GPA and if they ha
 hsls_clean%>%
   _____(ap_ib_credit)%>%
   _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%>%
-  arrange(mean_gpa_ap)
+  arrange(ap_ib_credit)
 ```
 
-```{r conditional1-solution}
+```{r conditional1-solution, exercise.reveal_solution = TRUE}
+#Solution
 hsls_clean%>%
   group_by(ap_ib_credit)%>%
   summarize(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
-  arrange(mean_gpa_ap)
+  arrange(ap_ib_credit)
 ```
 
-##Is this a better predictor?
+###Is this a better predictor?
 Is the conditional mean a better predictor of GPA than the unconditional mean? 
 First, make a prediction for GPA at each level of AP/IB and add that to your dataset. 
 ```{r conditional_mutate1, exercise=TRUE, exercise.eval=TRUE}
@@ -107,14 +113,15 @@ First, make a prediction for GPA at each level of AP/IB and add that to your dat
 ```
 
 ```{r conditional_mutate1-hint-2}
-hsls_clean%>%
+hsls_clean<-hsls_clean%>%
   _____(ap_ib_credit)%>%
-  _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%>%
-  arrange(mean_gpa_ap)
+  _____(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  ungroup()
 ```
 
-```{r conditional_mutate1-solution}
-hsls_clean%>%
+```{r conditional_mutate1-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean<-hsls_clean%>%
   group_by(ap_ib_credit)%>%
   mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
   ungroup()
@@ -133,12 +140,13 @@ Second, compare your RMSEs.
 ```
 
 ```{r conditional1_rmse-hint-2}
-rmse_ap<-hsls_clean%>%____(ap_ib_credit,mean_gpa_ap)
+rmse_ap<-hsls_clean%>%____(gpa,mean_gpa_ap)
 rmse_ap
 ```
 
-```{r conditional1_rmse-solution}
-rmse_ap<-hsls_clean%>%rmse(ap_ib_credit,mean_gpa_ap)
+```{r conditional1_rmse-solution, exercise.reveal_solution = TRUE}
+#Solution
+rmse_ap<-hsls_clean%>%rmse(gpa,mean_gpa_ap)
 rmse_ap
 
 ```

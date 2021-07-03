@@ -130,9 +130,8 @@ library(yardstick)
 data(&quot;hsls_clean&quot;)</code></pre>
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
 </div>
-</div>
-<div id="section-unconditional-means" class="section level2">
-<h2>Unconditional Means</h2>
+<div id="section-unconditional-means" class="section level3">
+<h3>Unconditional Means</h3>
 <p>If the only information we had about students was their GPA, our best guess for a given student’s GPA would be the school’s average GPA.</p>
 <p>Calculate the average GPA, use the mutate command to make a new variable for the prediction:</p>
 <div class="tutorial-exercise" data-label="unconditional" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
@@ -144,7 +143,8 @@ hsls_clean&lt;-hsls_clean%&gt;%
   _____(mean_gpa_uncond=_____(gpa,na.rm=TRUE))</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="unconditional-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>hsls_clean&lt;-hsls_clean%&gt;%
+<pre class="text"><code>#Solution
+hsls_clean&lt;-hsls_clean%&gt;%
   mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))</code></pre>
 </div>
 <p>How far off on average is the mean from a given student’s actual GPA?</p>
@@ -160,12 +160,13 @@ rmse_uncond&lt;-hsls_clean%&gt;%____(gpa,mean_gpa_uncond)
 rmse_uncond</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="rmse-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>rmse_uncond&lt;-hsls_clean%&gt;%rmse(gpa,mean_gpa_uncond)
+<pre class="text"><code>#Solution
+rmse_uncond&lt;-hsls_clean%&gt;%rmse(gpa,mean_gpa_uncond)
 rmse_uncond</code></pre>
 </div>
 </div>
-<div id="section-conditional-mean-with-one-predictor" class="section level2">
-<h2>Conditional Mean with One Predictor</h2>
+<div id="section-conditional-mean-with-one-predictor" class="section level3">
+<h3>Conditional Mean with One Predictor</h3>
 <p>We think that there may be a relationship between a student’s GPA and if they have taken AP or IB classes. Maybe these students have lower GPAs because these classes are graded more rigorously. Or maybe these students have higher GPAs because students are only allowed to take AP/IB if they have a high GPA to begin with. Generate a table of the conditional mean of the outcome variable by levels of the predictor variable.</p>
 <div class="tutorial-exercise" data-label="conditional1" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
@@ -178,15 +179,16 @@ rmse_uncond</code></pre>
 <pre class="text"><code>hsls_clean%&gt;%
   _____(ap_ib_credit)%&gt;%
   _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%&gt;%
-  arrange(mean_gpa_ap)</code></pre>
+  arrange(ap_ib_credit)</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="conditional1-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>hsls_clean%&gt;%
+<pre class="text"><code>#Solution
+hsls_clean%&gt;%
   group_by(ap_ib_credit)%&gt;%
   summarize(mean_gpa_ap=mean(gpa,na.rm=TRUE))%&gt;%
-  arrange(mean_gpa_ap)</code></pre>
+  arrange(ap_ib_credit)</code></pre>
 </div>
-##Is this a better predictor? Is the conditional mean a better predictor of GPA than the unconditional mean? First, make a prediction for GPA at each level of AP/IB and add that to your dataset.
+###Is this a better predictor? Is the conditional mean a better predictor of GPA than the unconditional mean? First, make a prediction for GPA at each level of AP/IB and add that to your dataset.
 <div class="tutorial-exercise" data-label="conditional_mutate1" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
 <script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":624,"warning":true,"error":false,"message":true,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
 </div>
@@ -194,13 +196,14 @@ rmse_uncond</code></pre>
 <pre class="text"><code>#Use the mutate function</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="conditional_mutate1-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>hsls_clean%&gt;%
+<pre class="text"><code>hsls_clean&lt;-hsls_clean%&gt;%
   _____(ap_ib_credit)%&gt;%
-  _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%&gt;%
-  arrange(mean_gpa_ap)</code></pre>
+  _____(mean_gpa_ap=mean(gpa,na.rm=TRUE))%&gt;%
+  ungroup()</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="conditional_mutate1-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>hsls_clean%&gt;%
+<pre class="text"><code>#Solution
+hsls_clean&lt;-hsls_clean%&gt;%
   group_by(ap_ib_credit)%&gt;%
   mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%&gt;%
   ungroup()</code></pre>
@@ -213,11 +216,12 @@ rmse_uncond</code></pre>
 <pre class="text"><code>#use the RMSE function</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="conditional1_rmse-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>rmse_ap&lt;-hsls_clean%&gt;%____(ap_ib_credit,mean_gpa_ap)
+<pre class="text"><code>rmse_ap&lt;-hsls_clean%&gt;%____(gpa,mean_gpa_ap)
 rmse_ap</code></pre>
 </div>
 <div class="tutorial-exercise-support" data-label="conditional1_rmse-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>rmse_ap&lt;-hsls_clean%&gt;%rmse(ap_ib_credit,mean_gpa_ap)
+<pre class="text"><code>#Solution
+rmse_ap&lt;-hsls_clean%&gt;%rmse(gpa,mean_gpa_ap)
 rmse_ap</code></pre>
 </div>
 <div class="panel panel-default">
@@ -231,7 +235,10 @@ rmse_ap</code></pre>
 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+#knitr::opts_chunk$set(echo = FALSE)
+#knitr::opts_chunk$set(cache = TRUE)
+#knitr::opts_chunk$set(cache.globals = TRUE)
+#knitr::opts_chunk$set(dependson = TRUE)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -287,7 +294,7 @@ output$`tutorial-exercise-conditional1_rmse-output` <- renderUI({
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-a", question = structure("Is the conditional or unconditional mean a better predictor of student GPA in this case?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_569dc57",     option = "conditional", value = "conditional", label = structure("conditional", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6ee5401",     option = "unconditional", value = "unconditional", label = structure("unconditional", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "letter-a-answer", question = "letter-a"), loading = structure("<strong>Loading:<\u002fstrong> \nIs the conditional or unconditional mean a better predictor of student GPA in this case?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = FALSE,     seed = 1679458304.21794, options = list()), class = c("learnr_radio", "tutorial_question")))
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "letter-a", question = structure("Is the conditional or unconditional mean a better predictor of student GPA in this case?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_b17d302",     option = "conditional", value = "conditional", label = structure("conditional", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_8dc22a7",     option = "unconditional", value = "unconditional", label = structure("unconditional", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "letter-a-answer", question = "letter-a"), loading = structure("<strong>Loading:<\u002fstrong> \nIs the conditional or unconditional mean a better predictor of student GPA in this case?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = FALSE,     seed = 1395610230.35012, options = list()), class = c("learnr_radio", "tutorial_question")))
 </script>
  <!--html_preserve-->
 <script type="application/shiny-prerendered" data-context="dependencies">
@@ -299,6 +306,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42]}},"value":[{"type":"character","attributes":{},"value":["backports","base","bslib","checkmate","compiler","datasets","digest","ellipsis","evaluate","fastmap","graphics","grDevices","htmltools","htmlwidgets","httpuv","jquerylib","jsonlite","knitr","later","learnr","lifecycle","magrittr","markdown","methods","mime","promises","R6","Rcpp","rlang","rmarkdown","rprojroot","sass","shiny","stats","stringi","stringr","tools","utils","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.2.1","4.1.0","0.2.5.1","2.0.0","4.1.0","4.1.0","0.6.27","0.3.2","0.14","1.1.0","4.1.0","4.1.0","0.5.1.1","1.5.3","1.6.1","0.1.4","1.7.2","1.33","1.2.0","0.10.1","1.0.0","2.0.1","1.1","4.1.0","0.10","1.2.0.1","2.5.0","1.0.6","0.4.11","2.8","2.0.2","0.4.0","1.6.0","4.1.0","1.6.1","1.4.0","4.1.0","4.1.0","2.4.2","0.23","1.8-4","2.2.1"]}]}]}
 </script>
 <!--/html_preserve-->
+</div>
 </div>
 </div>
 
