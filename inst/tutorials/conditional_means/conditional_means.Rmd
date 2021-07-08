@@ -42,7 +42,7 @@ Calculate the average GPA, use the mutate command to make a new variable for the
 hsls_clean<-hsls_clean%>%
   _____(mean_gpa_uncond=_____(gpa,na.rm=TRUE))
 
-#add the list function to see that the new variable has been created 
+#add the ls function to see that the new variable has been created 
 ls(hsls_clean)
 ```
 
@@ -121,7 +121,7 @@ hsls_clean%>%
   arrange(ap_ib_credit)
 ```
 
-###Is this a better predictor?
+### Is this a better predictor?
 Is the conditional mean a better predictor of GPA than the unconditional mean? 
 First, make a prediction for GPA at each level of AP/IB and add that to your dataset. 
 ```{r conditional_mutate1, exercise=TRUE, exercise.eval=TRUE}
@@ -149,6 +149,8 @@ hsls_clean<-hsls_clean%>%
   group_by(ap_ib_credit)%>%
   mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
   ungroup()
+
+ls(hsls_clean)
 ```
 
 

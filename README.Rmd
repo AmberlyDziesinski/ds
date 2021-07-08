@@ -9,7 +9,6 @@ output: html_document
 ```{r}
 library(devtools)
 install_github('AmberlyDziesinski/ds')
-install.packages("ds")
 library(ds)
 
 #Data files
@@ -19,6 +18,7 @@ data("vote_pres_primaries")
 data("vote_pres_states")
 data("vote_sen_states")
 data("hsls_clean")
+data("book")
 
 #Data help files
 ?vote_gov_states
@@ -26,10 +26,12 @@ data("hsls_clean")
 ?vote_pres_primaries
 ?vote_pres_states
 ?vote_sen_states
-?hsls
+?hsls_clean
+?book
 
 #Tutorials
 learnr::run_tutorial("conditional_means", "ds")
+learnr::run_tutorial("plot_means", "ds")
 ```
 
 
