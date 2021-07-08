@@ -1,0 +1,350 @@
+---
+title: "Plotting Conditional Means"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# Presenting Data 1: Plotting Conditional Means
+
+The idea when plotting conditional means is to show how the outcome, or variable of interest, varies as a function of predictors. 
+
+
+## Setup for plotting conditional means
+
+Run the code below to load these packages and data. Today we will be working with `tidyverse`. To handle colors, we'll need the package `RColorBrewer.` We will use the HSLS data from the ds package. 
+
+```{r load_data, exercise=TRUE}
+library(ds)
+library(tidyverse)
+library(RColorBrewer)
+data("hsls_clean")
+```
+
+
+### Review: 
+Our primary outcome of interest will be student GPA. We can quickly summarize this variable using `summarize` and functions like `mean` and `sd`.
+
+```{r sum, exercise=TRUE}
+
+
+```
+
+```{r sum-hint-1}
+#Use the summarize function, with mean and sd options
+hsls_clean%>%
+ _____(mean_gpa=____(gpa,na.rm=TRUE),
+              sd_gpa=___(gpa,na.rm=TRUE))
+```
+
+```{r sum-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+ summarize(mean_gpa=mean(gpa,na.rm=TRUE),
+              sd_gpa=sd(gpa,na.rm=TRUE))
+```
+
+
+
+## Univariate Graphics
+
+Univariate graphics, like a bar graph for an individual variable, help us to depict characteristics and understand how they distributed across the sample. 
+
+Use the geom_bar function to create a bar graph with the number of student athletes and non-athletes (the sports variable). 
+
+
+```{r univariate, exercise=TRUE}
+
+
+```
+
+```{r univariate-hint-1}
+#First, use group_by to group the data by characteristics of the sports variable #Then use the ggplot function to graph the groups of the sports variable 
+
+```
+
+```{r univariate-hint-2}
+#First, use group_by to group the data by characteristics of the sports variable #Then use the ggplot function to graph the groups of the sports variable 
+hsls_clean%>%
+_____(sports)%>%
+  count()%>%
+_____(aes(x=sports,y=n,fill=as_factor(sports)))+
+geom_bar(stat="identity")
+```
+
+```{r univariate-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(sports)%>%
+  count()%>%
+ggplot(aes(x=sports,y=n,fill=as_factor(sports)))+
+geom_bar(stat="identity")
+```
+
+Bar graphs are great for factor variables, but do not make sense for continuous variables, like SES.  
+
+Generate a histogram for SES. 
+
+```{r hist, exercise=TRUE}
+
+
+``` 
+
+```{r hist-hint-1}
+#Use ggplot and geom_histogram
+
+```
+
+```{r hist-hint-2}
+#Use ggplot and geom_histogram
+hsls_clean%>%
+  _____(aes(x=ses))+
+  _____()
+```
+
+```{r hist-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  ggplot(aes(x=ses))+
+  geom_histogram()
+```
+
+Next, graph a density plot to show the continuous distribution of ses.
+
+```{r distribution, exercise=TRUE}
+
+```
+
+```{r distribution-hint-1}
+#This one is just like the histogram, but with geom_density specified instead of geom_histogram
+
+```
+
+```{r distribution-hint-2}
+#Use the geom_density function
+hsls_clean%>%
+  ggplot(aes(x=ses))+
+  _____()
+```
+
+```{r distribution-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  ggplot(aes(x=ses))+
+  geom_density()
+```
+
+
+## Predicting GPA
+
+Before we depict conditional means of student GPA as a function of another variable, a quick review:
+
+Calculate the average GPA by the number of hours students spend on extracurricular activities each week: 
+
+```{r sum2, exercise=TRUE}
+
+```
+
+```{r sum2-hint-1}
+#Group the data by extracurricular hours, then use the summarize function to find the average GPA for each level
+
+```
+
+```{r sum2-hint-2}
+#Group the data by extracurricular hours, then use the summarize function to find the average GPA for each level
+hsls_clean%>%
+  _____(hours_extracurricular)%>%
+  _____(mean_gpa_ap=mean(gpa,na.rm=TRUE))
+```
+
+```{r sum2-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(hours_extracurricular)%>%
+  summarize(mean_gpa_ap=mean(gpa,na.rm=TRUE))
+``` 
+
+### Bar Graphs
+Now plot the average GPA by extracurricular hours in a bar graph (don't forget to make the bars different colors!): 
+```{r plot, exercise=TRUE}
+
+```
+
+```{r plot-hint-1}
+#Start with the conditional means code we just did, then use ggplot and geom_bar (just like the sports bar graph above)
+#Add the fill option to ggplot to make the bars different colors
+
+```
+
+```{r plot-hint-2}
+#Start with the conditional means code we just did (group_by and summarize), then use ggplot and geom_bar (just like the sports bar graph above)
+#Add the fill option to ggplot to make the bars different colors
+hsls_clean%>%
+  _____(hours_extracurricular)%>%
+  _____(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  _____(aes(x=hours_extracurricular,y=mean_gpa,____=hours_extracurricular))+
+  _____(stat="identity",position="dodge")
+```
+
+```{r plot-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(hours_extracurricular)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=hours_extracurricular))+
+  geom_bar(stat="identity",position="dodge")
+
+```
+
+
+
+
+### Dot Plots
+
+How does GPA conditional on extracurricular hours look as a dot plot? 
+
+
+```{r dot, exercise=TRUE}
+
+```
+
+```{r dot-hint-1}
+#This code follows the same pattern as the conditional bar graph
+#Change geom_bar from the prior example to geom_point
+
+```
+
+```{r dot-hint-2}
+#This code follows the same pattern as the conditional bar graph
+#Change geom_bar from the prior example to geom_point
+hsls_clean%>%
+  group_by(hours_extracurricular)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=hours_extracurricular))+
+  _____()
+```
+
+```{r dot-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(hours_extracurricular)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=hours_extracurricular))+
+  geom_point()
+
+
+```
+
+
+## Conditional means using two predictors
+
+Are there differences in the conditional mean of GPA and extracurricular hours by sex? 
+
+Plot a bar graph for GPA by both extracurricular hours and sex. The location of the bars should be the number of extracurricular hours and bar color should indicate sex. 
+
+```{r cond2, exercise=TRUE}
+
+```
+
+```{r cond2-hint-1}
+#Start with the code above to make the GPA/extracurricular bar graph
+#Group by both hours_extracurricular and sex
+#Since the color should be different by sex, fill by sex 
+
+```
+
+```{r cond2-hint-2}
+#Start with the code above to make the GPA/extracurricular bar graph
+#Group by both hours_extracurricular and sex
+#Since the color should be different by sex, fill by sex 
+
+hsls_clean%>%
+  group_by(hours_extracurricular, _____)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=_____))+
+  _____(stat="identity",position="dodge")
+
+```
+
+```{r cond2-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(hours_extracurricular, sex)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=sex))+
+  geom_bar(stat="identity",position="dodge")
+```
+
+
+
+
+
+## More Variables: faceting
+
+Now, I know what you are thinking: might there be a difference in the relationship between GPA, extracurricular participation, and sex for student athletes? Let's find out!
+
+Use faceting (making multiple graphs side by side) to depict GPA by extracurricular hours, sports participation, and sex. Arrange the position based on extracurricular hours, color by sports participation, and faceting by sex. 
+
+```{r facet, exercise=TRUE}
+
+```
+
+```{r facet-hint-1}
+#Start with the code above to make the GPA/extracurricular/sex bar graph
+#Group by hours_extracurricular, sex, and sports
+#Since the color should be different by sports this time, fill by sports
+#Add the facet_wrap function by sex to make two graphs, one for male and one for female
+
+```
+
+```{r facet-hint-2}
+#Start with the code above to make the GPA/extracurricular/sex bar graph
+#Group by hours_extracurricular, sex, and sports
+#Since the color should be different by sports this time, fill by sports
+#Add the facet_wrap function by sex to make two graphs, one for male and one for female
+hsls_clean%>%
+  group_by(hours_extracurricular, sports, _____)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=_____))+
+  geom_bar(stat="identity",position="dodge")+
+  ______(~sex)
+
+
+```
+
+```{r facet-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(hours_extracurricular, sports, sex)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=sports))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_wrap(~sex)
+
+```
+
+We can make this graph look better with some fine tuning. For example, flippling the graph on the side makes it easier to read. You could also change the colors. Try some different options to make the graph look great: 
+
+```{r facet2, exercise=TRUE}
+
+```
+
+
+```{r facet2-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean%>%
+  group_by(hours_extracurricular, sports, sex)%>%
+  summarize(mean_gpa=mean(gpa,na.rm=TRUE))%>%
+  ggplot(aes(x=hours_extracurricular,y=mean_gpa,fill=sports))+
+  geom_bar(stat="identity",position="dodge")+
+  facet_wrap(~sex)+
+  coord_flip()
+```
+
+
+

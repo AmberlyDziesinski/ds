@@ -139,6 +139,7 @@ README:
 library(learnr)
 usethis::use_tutorial("<tutorial-name>", "<Tutorial Title>", open = interactive())
 
+usethis::use_tutorial("test", "test", open = interactive())
 ```
     This will make a new folder in "/inst/tutorials", which contains a .Rmd with the tutorial-name
 

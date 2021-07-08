@@ -6,10 +6,8 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
-#knitr::opts_chunk$set(echo = FALSE)
-#knitr::opts_chunk$set(cache = TRUE)
-#knitr::opts_chunk$set(cache.globals = TRUE)
-#knitr::opts_chunk$set(dependson = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(error = TRUE)
 ```
 
 # Practice: Conditional Means
@@ -34,34 +32,52 @@ If the only information we had about students was their GPA, our best guess for 
 
 Calculate the average GPA, use the mutate command to make a new variable for the prediction:  
 
+
 ```{r unconditional, exercise=TRUE, exercise.eval=TRUE}
 
 ```
 
-```{r unconditional-hint}
+```{r unconditional-hint-1}
 #Fill in the blanks with the functions to make a new variable that is the mean of GPA
 hsls_clean<-hsls_clean%>%
   _____(mean_gpa_uncond=_____(gpa,na.rm=TRUE))
+
+#add the list function to see that the new variable has been created 
+ls(hsls_clean)
 ```
 
 ```{r unconditional-solution, exercise.reveal_solution = TRUE}
+
 #Solution
 hsls_clean<-hsls_clean%>%
   mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
+
+ls(hsls_clean)
 ```
 
-How far off on average is the mean from a given student's actual GPA? 
+How far off on average is the mean from a given student's actual GPA? (Note: I've already copied the code from the prior exercise, add your new code after)
 
-```{r rmse, exercise=TRUE, exercise.eval=TRUE, dependson = 3}
+```{r rmse, exercise=TRUE, exercise.eval=TRUE}
+hsls_clean<-hsls_clean%>%
+  mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
+
+#Add code here:
 
 ```
 
 ```{r rmse-hint-1}
+hsls_clean<-hsls_clean%>%
+  mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
+
+#Add code here:
 #Calculate the RMSE 
 
 ```
 
 ```{r rmse-hint-2}
+hsls_clean<-hsls_clean%>%
+  mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
+
 #Use the RMSE function
 rmse_uncond<-hsls_clean%>%____(gpa,mean_gpa_uncond)
 rmse_uncond
@@ -69,6 +85,9 @@ rmse_uncond
 
 ```{r rmse-solution, exercise.reveal_solution = TRUE}
 #Solution
+hsls_clean<-hsls_clean%>%
+  mutate(mean_gpa_uncond=mean(gpa,na.rm=TRUE))
+
 rmse_uncond<-hsls_clean%>%rmse(gpa,mean_gpa_uncond)
 rmse_uncond
 ```
@@ -86,6 +105,8 @@ We think that there may be a relationship between a student's GPA and if they ha
 ```
 
 ```{r conditional1-hint-2}
+#Use the group_by, summarize, and mean functions
+#GPA is the outcome, AP/IB is the predictor variable 
 hsls_clean%>%
   _____(ap_ib_credit)%>%
   _____(mean_gpa_ap=_____(gpa,na.rm=TRUE))%>%
@@ -108,15 +129,18 @@ First, make a prediction for GPA at each level of AP/IB and add that to your dat
 ```
 
 ```{r conditional_mutate1-hint-1}
-#Use the mutate function
+#Group variables by AP/IB credit levels and use the mutate function
 
 ```
 
 ```{r conditional_mutate1-hint-2}
+#Group variables by AP/IB credit levels and use the mutate function
 hsls_clean<-hsls_clean%>%
   _____(ap_ib_credit)%>%
   _____(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
   ungroup()
+#add the list function to see that the new variable has been created 
+ls(hsls_clean)
 ```
 
 ```{r conditional_mutate1-solution, exercise.reveal_solution = TRUE}
@@ -129,23 +153,47 @@ hsls_clean<-hsls_clean%>%
 
 
 
-Second, compare your RMSEs. 
+Second, compare your RMSEs. (Note: I've already copied the code from the prior exercise, add your new code after)
 
 ```{r conditional1_rmse, exercise=TRUE, exercise.eval=TRUE}
+hsls_clean<-hsls_clean%>%
+  group_by(ap_ib_credit)%>%
+  mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  ungroup()
 
+#Add code below
 ```
 
 ```{r conditional1_rmse-hint-1}
-#use the RMSE function
+hsls_clean<-hsls_clean%>%
+  group_by(ap_ib_credit)%>%
+  mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  ungroup()
+
+#Add code below
+#Use the RMSE function
+
 ```
 
 ```{r conditional1_rmse-hint-2}
+hsls_clean<-hsls_clean%>%
+  group_by(ap_ib_credit)%>%
+  mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  ungroup()
+
+#Add code below
+#Use the RMSE function
 rmse_ap<-hsls_clean%>%____(gpa,mean_gpa_ap)
 rmse_ap
 ```
 
 ```{r conditional1_rmse-solution, exercise.reveal_solution = TRUE}
 #Solution
+hsls_clean<-hsls_clean%>%
+  group_by(ap_ib_credit)%>%
+  mutate(mean_gpa_ap=mean(gpa,na.rm=TRUE))%>%
+  ungroup()
+
 rmse_ap<-hsls_clean%>%rmse(gpa,mean_gpa_ap)
 rmse_ap
 

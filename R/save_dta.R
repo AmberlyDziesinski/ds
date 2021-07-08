@@ -4,9 +4,10 @@
 #
 #
 # library(tidyverse)
-#library(haven)
-#
-#library(devtools)
+# library(haven)
+# library(devtools)
+
+
 #use_mit_license("Amberly Dziesinski")
 
 #stata files
@@ -21,6 +22,9 @@
 # usethis::use_data(vote_pres_primaries, overwrite = TRUE)
 # usethis::use_data(vote_pres_states, overwrite = TRUE)
 # usethis::use_data(vote_sen_states, overwrite = TRUE)
+
+# book <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\books_data\\book.dta")
+# usethis::use_data(book, overwrite = TRUE)
 
 ##R files
 #hsls <- load(file = "C:\\Users\\amber\\Documents\\data_sci\\hsls_data\\hsls.rda")
