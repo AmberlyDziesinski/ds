@@ -19,6 +19,7 @@ data("vote_pres_states")
 data("vote_sen_states")
 data("hsls_clean")
 data("book")
+data("sisfcf")
 
 #Data help files
 ?vote_gov_states
@@ -28,6 +29,7 @@ data("book")
 ?vote_sen_states
 ?hsls_clean
 ?book
+?sisfcf
 
 #Tutorials
 learnr::run_tutorial("conditional_means", "ds")

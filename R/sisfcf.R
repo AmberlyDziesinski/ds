@@ -1,0 +1,61 @@
+#'
+#' Survey of Inmates in State and Federal Correctional Facilities 2004
+#'
+#' Loads clean version of SISFCF data into the environment.
+#' @usage data(sisfcf)
+#'
+#' @format
+#' Data are structured as one observation per survey participant
+#' Variables include:
+#' \describe{
+#'   \item{id}{Unique identifier for each inmate}
+#'   \item{facility_id}{Unique identifier for each prison facility}
+#'   \item{sex}{Sex of the participant}
+#'   \item{age}{Age of the participant}
+#'   \item{race}{Race of the participant}
+#'   \item{education}{Highest education level prior to being admitted to prison; 1=1st grade...12=12th grade, 13=college freshman, 14=college sophmore, 15=college junior, 16=college senior, 17=one year graduate school, 18=two or more years of graduate school}
+#'   \item{income_pre}{Monthly income in the month before arrest}
+#'   \item{citizen}{Yes indicates participant is a US Citizen}
+#'   \item{married}{Marital status of the participant}
+#'   \item{child_minor}{Yes indicates the participant has a child under the age of 18}
+#'   \item{veteran}{Yes indicates the participant is a veteran of the US Armed Forces}
+#'   \item{state_resident}{State of participant's residence}
+#'   \item{state_offense}{State in which offense took place}
+#'   \item{offense}{Offense for which participant is currently serving, detailed categories}
+#'   \item{offense_collapsed}{Offense for which participant is currently serving, collapsed to four categories}
+#'   \item{adult}{Yes indicats the participant was sentenced as an adult}
+#'   \item{work}{Yes indicates that the participant has a work assignment inside the facility}
+#'   \item{job_training}{Yes indicates that the participant has participated in vocational or job-training since being admitted into the facility}
+#'   \item{criminal_hist}{Status of the participant's criminal history: no history if first time, recidivists (have history) categorized as violent or nonviolent}
+#'   \item{n_arrested}{Number of times participant has been arrested (0 if no criminal history)}
+#'   \item{age_first_arrest}{Age of participant's first arrest, if participant has a criminal history (missing for participants without a criminal history)}
+#'   \item{parents_sentenced}{Yes indicates participant has a parent who has been sentenced for criminal activity}
+#'   \item{family_sentenced}{Yes indicates participant has a family member who has been sentenced for criminal activity}
+#'   \item{sentence_lenth_mo}{Participant's sentence length, in months}
+#'   \item{sentence_length_yr}{Participant's sentence length, in years}
+#'   \item{arrest_mo}{Month in which participant was arrested}
+#'   \item{arrest_yr}{Year in which participant was arrested}
+#'   \item{admission_mo}{Month in which participant was admitted to the facility}
+#'   \item{admission_day}{Day in which participant was admitted to the facility}
+#'   \item{admission_yr}{Year in which participant was admitted to the facility}
+#'   \item{sentence_mo}{Month in which participant was sentanced}
+#'   \item{sentence_yr}{Year in which participant was sentanced}
+#'   \item{release_mo}{Month in which participant will be released (expected)}
+#'   \item{release_yr}{Year in which participant will be released (expected)}
+
+#'  }
+#'
+#' @details
+#' These data were cleaned for the purpose of Data Science 1000 in the following way: Observations with missing data were removed
+#'
+#' @source
+#' Data were collected by the Bureau of Justice Statistics and the Bureau of the Census using personal interviews with individuals at federally owned and operated prisons.
+#' \url{https://www.icpsr.umich.edu/web/NACJD/studies/4572/export#}
+#'
+#' @examples
+#' # Run descriptive statistics on the data:
+#' #hist(sentence_length_yr)
+#' #table(race)
+#' #mean(age)
+
+"sisfcf"

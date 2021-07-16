@@ -26,9 +26,15 @@
 # book <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\books_data\\book.dta")
 # usethis::use_data(book, overwrite = TRUE)
 
+# sisfcf <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\ICPSR_04572\\SISFCF.dta")
+# usethis::use_data(sisfcf, overwrite = TRUE)
+
+
+
 ##R files
 #hsls <- load(file = "C:\\Users\\amber\\Documents\\data_sci\\hsls_data\\hsls.rda")
 # usethis::use_data(hsls, overwrite = TRUE)
+
 
 
 ##MAKE TUTORIALS
