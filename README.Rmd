@@ -34,6 +34,7 @@ data("sisfcf")
 #Tutorials
 learnr::run_tutorial("conditional_means", "ds")
 learnr::run_tutorial("plot_means", "ds")
+learnr::run_tutorial("data_manipulation", "ds")
 ```
 
 
@@ -144,6 +145,7 @@ library(learnr)
 usethis::use_tutorial("<tutorial-name>", "<Tutorial Title>", open = interactive())
 
 usethis::use_tutorial("test", "test", open = interactive())
+
 ```
     This will make a new folder in "/inst/tutorials", which contains a .Rmd with the tutorial-name
 

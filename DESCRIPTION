@@ -4,7 +4,6 @@ Title: Files for Vanderbilt Data Science 1000
 Version: 0.1.0
 Authors@R: person("Amberly", "Dziesinski", email = "amberly.dziesinski@vanderbilt.edu", role = c("aut", "cre"))
 Description: This package includes the data, documentation, tutorials, and other R files to be used in the Vanderbilt data science 1000 class. 
-    Data includes: hsls, voter polls, etc. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

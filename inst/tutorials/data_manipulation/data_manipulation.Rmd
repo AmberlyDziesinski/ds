@@ -1,0 +1,562 @@
+---
+title: "Data Manipulation"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# Manipulating Data
+## Introduction
+Practice data manipulation, including: 
+- summarize()
+- mutate()
+- select()
+- filter()
+- arrange()
+
+
+Run the code below to load the packages and data for these exercises.
+```{r load_data, exercise=TRUE}
+library(ds)
+library(tidyverse)
+data("hsls_clean")
+```
+
+
+## Summarize  
+The summarize function is used to make a new table which reports a summary statistic (like the average) for your data. 
+
+### Average
+What is the average GPA for students in the HSLS data? 
+```{r mean, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r mean-hint-1}
+#The code should follow this logic:
+Name of Data Frame %>%
+  Manipulation Function (Sub-Manipulatin Function(variable,na.rm=TRUE))
+
+
+```
+
+```{r mean-hint-2}
+#Fill in the blanks with the "summarize" and "mean" functions to make a new variable that is the mean of GPA
+hsls_clean%>%
+  _____(_____(gpa,na.rm=TRUE))
+
+
+```
+
+```{r mean-solution, exercise.reveal_solution = TRUE}
+
+#Solution
+hsls_clean%>%
+  summarize(mean(gpa,na.rm=TRUE))
+
+```
+
+### Median
+You can  use summarize to obtain other summary statistics by swapping out the sub-function. 
+For example, switch the code from mean to median to obtain the median. 
+
+What is the median GPA? 
+```{r median, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r median-hint-1}
+#Fill in the blanks with the "summarize" and "median" functions to make a new variable that is the mean of GPA
+hsls_clean%>%
+  _____(_____(gpa,na.rm=TRUE))
+
+
+```
+
+```{r median-solution, exercise.reveal_solution = TRUE}
+
+#Solution
+hsls_clean%>%
+  summarize(median(gpa,na.rm=TRUE))
+
+```
+
+### Combining summary statistics  
+If we need multiple summary statistics for one variable, we can combine them into one command.
+
+What is the average, minimum value, maximum value, and standard deviation of SES? 
+
+
+```{r multi, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r multi-hint-1}
+#The sub-function for the average is: mean
+#The sub-function for the minimum value is: min
+#The sub-function for the maximum value is: max
+#The sub-function for the standard deviation is: sd
+
+```
+
+```{r multi-hint-2}
+#Fill in the blanks with mean, min, max, and sd
+hsls_clean%>%
+  summarize(____(ses,na.rm=TRUE), ____(ses,na.rm=TRUE), ____(ses,na.rm=TRUE), ____(ses,na.rm=TRUE))
+
+
+```
+
+```{r multi-solution, exercise.reveal_solution = TRUE}
+
+#Solution
+hsls_clean%>%
+  summarize(mean(ses,na.rm=TRUE), min(ses,na.rm=TRUE), max(ses,na.rm=TRUE), sd(ses,na.rm=TRUE))
+
+```
+
+### Summarizing by groups 
+
+We can find a summary statistic for a specific group of students by combining the summarize command with the group_by() command. 
+
+We already found the average GPA for all students. What is the average GPA for student athletes and non-athletes (indicated by the sports variable)? 
+
+```{r groups, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r groups-hint-1}
+#The code should follow this logic:
+Name of Data Frame %>%
+  group_by(Groups variable) %>%
+  Manipulation Function (Sub-Manipulatin Function(variable,na.rm=TRUE))
+
+
+```
+
+```{r groups-hint-2}
+#Fill in the blanks with the "group_by" function
+hsls_clean%>%
+  _____(sports)%>%
+  summarize(mean(gpa,na.rm=TRUE))
+
+
+```
+
+```{r groups-solution, exercise.reveal_solution = TRUE}
+
+#Solution
+hsls_clean%>%
+  group_by(sports)%>%
+  summarize(mean(gpa,na.rm=TRUE))
+
+```
+
+
+
+
+## Mutate  
+The mutate function can give you the same information as summarize, but mutate adds a new variable to your data instead of giving you a table. Why would you need a new variable? Sometimes, you will want to run an analysis only on groups that have a specific characteristic. For example, you might make a new variable for the average GPA for students within a school so you could group students by if they attend a school with a higher or lower average GPA. 
+
+The coding logic is the same for mutate as it is for summarize. However, mutate will not give you the table like summarize did. To see that it works, we will have to check our data. 
+
+### Mutate vs. summarize  
+
+In the Summarize excersize, we calculated the average GPA. This code produces a nice table: 
+```{r sum, exercise=TRUE}
+hsls_clean%>%
+  summarize(mean(gpa,na.rm=TRUE))
+```
+
+To make a variable with this value, change summarize to mutate, and name the new variable:
+
+```{r sum2, exercise=TRUE}
+#Make a new variable equal to the average GPA
+hsls_clean<-hsls_clean%>%
+  mutate(mean_gpa=mean(gpa,na.rm=TRUE))
+
+#List the variables so we can see our new variable, "mean_gpa"
+ls(hsls_clean)
+
+#Then, we can use summarize commands our new variable:
+  #Note: "first" lists the first value of a variable. Since we made a variable for the average of all observations, every observation has the same value in the mean_gpa column. 
+hsls_clean%>%
+  summarize(first(mean_gpa))
+
+```
+
+### Mutate example 
+
+Make a new variable for the median ses of all observations. 
+
+```{r mutate, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r mutate-hint-1}
+#Fill in the blanks with the "mutate" and "median" functions
+hsls_clean<-hsls_clean%>%
+  _____(med_ses=_____(ses,na.rm=TRUE))
+
+#add the ls function to see that the new variable has been created
+ls(hsls_clean)
+```
+
+```{r mutate-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean<-hsls_clean%>%
+  mutate(med_ses=median(ses,na.rm=TRUE))
+
+#add the ls function to see that the new variable has been created
+ls(hsls_clean)
+```
+
+
+### Mutate by groups
+
+Just like with summarize, we can calculate a summary statistic within groups. The resulting new variable will have a different value for each group. 
+
+Make a new variable for the maximum GPA by family income category. 
+
+```{r groups_mutate, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+
+```{r groups_mutate-hint-1}
+#Fill in the blanks with the "group_by" function
+hsls_clean<-hsls_clean%>%
+  _____(family_income)%>%
+  mutate(max_gpa_inc=max(gpa,na.rm=TRUE))
+
+#add the ls function to see that the new variable has been created
+ls(hsls_clean)
+```
+
+```{r groups_mutate-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean<-hsls_clean%>%
+  group_by(family_income)%>%
+  mutate(max_gpa_inc=max(gpa,na.rm=TRUE))
+
+#add the ls function to see that the new variable has been created
+ls(hsls_clean)
+```
+
+
+
+
+### Mathematical functions with mutate
+
+We can also use mutate to perform mathematical calculations on a variable and make a new variable. For example, we might need to re-scale a variable, square a variable, or multiply a variable by another number. 
+
+Make a new variable equal to GPA times 2. 
+```{r math, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r math-hint-1}
+#Fill in the blanks with the "mutate" function
+hsls_clean<-hsls_clean%>%
+  ____(gpa2=gpa*2)
+
+#add the ls function to see that the new variable has been created
+ls(hsls_clean)
+```
+
+```{r math-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean<-hsls_clean%>%
+  mutate(gpa2=gpa*2)
+
+#add the ls function to see that the new variable has been created
+ls(hsls_clean)
+```
+
+
+
+
+
+## Select
+
+Select allows you to subset a command or data based on the variable names. 
+
+In the most basic form, select will print out the values of the selected variables: 
+
+```{r sel, exercise=TRUE}
+hsls_clean %>% select(student_id, music, art, drama)
+```
+
+This can be useful if you want to make a new data frame containing only a subset of data. 
+Make a new data frame called arts that includes the variables student_id, music, art, and drama.
+
+```{r df, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r df-hint-1}
+#Fill in the blanks with the new data frame name and the "select" function
+____<-hsls_clean %>% ____(student_id, music, art, drama)
+
+#add the ls function to see that the new data frame has been created
+ls(arts)
+```
+
+```{r df-solution, exercise.reveal_solution = TRUE}
+#Solution
+arts<-hsls_clean %>% select(student_id, music, art, drama)
+
+#add the ls function to see that the new data frame has been created
+ls(arts)
+```
+
+A useful operator within the select command is the exclamation point. The ! operator selects everything except for the listed variables. 
+
+You have decided that you won't be selecting students based on other_club, so you can remove that variable from the data. Make a new data frame called df with every variable except other_club.  
+```{r df2, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r df2-hint-1}
+#The ! operator negates a selection
+df<-hsls_clean %>% ____(!(other_club))
+
+#add the ls function to see that the new data frame has been created
+ls(df)
+```
+
+```{r df2-solution, exercise.reveal_solution = TRUE}
+#Solution
+df<-hsls_clean %>% select(!(other_club))
+
+#add the ls function to see that the new data frame has been created
+ls(df)
+```
+
+
+### Select and mutate 
+
+Select can be combined with other functions. 
+
+Make a new data frame called df that includes student id, gpa, and gpa squared. 
+
+```{r sm, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r sm-hint-1}
+#Select student_id and gpa
+#Then, mutate gpa to equal gpa*gpa
+
+```
+
+```{r sm-hint-2}
+#Select student_id and gpa
+#Then, mutate gpa to equal gpa*gpa
+
+df<-hsls_clean %>% ____(student_id, gpa) %>% ____(gpa_sq = gpa*gpa)
+
+#add the ls function to see that the new data frame has been created
+ls(df)
+```
+
+```{r sm-solution, exercise.reveal_solution = TRUE}
+#Solution
+df<-hsls_clean %>% select(student_id, gpa) %>% mutate(gpa_sq = gpa*gpa)
+
+#add the ls function to see that the new data frame has been created
+ls(df)
+```
+
+
+
+
+## Filter
+The filter function selects observations based on their values. Whereas select picks columns, filter picks rows. 
+
+The filter command alone will print the data for which the filter condition is met. 
+
+Filter the data to just view students who took a college tour. 
+
+```{r filter, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r filter-hint-1}
+#Use the filter function
+hsls_clean %>% _____(college_tour=="Yes")
+
+```
+
+
+```{r filter-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% filter(college_tour=="Yes")
+
+```
+
+
+Filter the data to just view students who have a GPA above 3.5. 
+
+```{r filtergpa, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r filtergpa-hint-1}
+#Use the filter function
+hsls_clean %>% _____(gpa>3.5)
+
+```
+
+
+```{r filtergpa-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% filter(gpa>3.5)
+
+```
+
+
+### New data frame 
+
+Just like with select, we can make a new data frame with only the observations that meet the filter condition. 
+
+Make a new data frame called hispanic that only includes students who identified as Hispanic. 
+
+```{r filter2, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r filter2-hint-1}
+#Use the filter function
+hispanic<-hsls_clean %>% _____(hispanic=="Yes")
+
+#add the ls function to see that the new data frame has been created
+ls(hispanic)
+```
+
+
+```{r filter2-solution, exercise.reveal_solution = TRUE}
+#Solution
+hispanic<-hsls_clean %>% filter(hispanic=="Yes")
+
+#add the ls function to see that the new data frame has been created
+ls(hispanic)
+```
+
+### Filtering on multiple conditions
+
+Show observations where the student participated in music, art, and drama, but not sports. For sports, use the != operator to indicate not equal to. 
+
+```{r filterm, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r filterm-hint-1}
+#Use the filter function
+hsls_clean %>% ____(music=="Yes",art=="Yes",drama=="Yes",sports!="Yes")
+
+
+```
+
+
+```{r filterm-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% filter(music=="Yes",art=="Yes",drama=="Yes",sports!="Yes")
+
+```
+
+
+### Filter by a statistic 
+
+Filter out students who have a below-average GPA. 
+
+```{r filterstat, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r filterstat-hint-1}
+#Use the "filter" function and the "mean" operator
+hsls_clean %>% ____(gpa>____(gpa, na.rm = TRUE))
+
+
+```
+
+
+```{r filterstat-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% filter(gpa>mean(gpa, na.rm = TRUE))
+
+```
+
+The example above compared students to the average GPA for all students. We might want to compare students within another grouping, like income. This will compare a student's GPA with other students who are in the same income category
+
+Filter out students who have a below-average GPA for their family income level.  
+
+```{r filterstatg, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r filterstatg-hint-1}
+#Use the "group_by" and "filter" functions 
+hsls_clean %>% _____(family_income)%>% ____(gpa>mean(gpa, na.rm = TRUE))
+
+
+```
+
+
+```{r filterstatg-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% group_by(family_income)%>% filter(gpa>mean(gpa, na.rm = TRUE))
+
+```
+
+
+
+## Arrange
+Arrange changes the order of the rows. This can be helpful if you want to sort the observations so by a value of one of the variables. 
+
+Use arrange to order the observations from highest to lowest GPA. 
+
+```{r arrange, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r arrange-hint-1}
+#Use the "arrange" function
+hsls_clean %>% _____(gpa)
+
+
+```
+
+
+```{r arrange-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% arrange(gpa)
+
+```
+
+You can also arrange by multiple variables. The data will be arranged by the variable listed first first, and then by the second variable within categories of the first variable. Arrange by sports participation and income.
+
+```{r arrange2, exercise=TRUE, exercise.eval=TRUE}
+
+```
+
+```{r arrange2-hint-1}
+#Use the "arrange" function
+hsls_clean %>% _____(sports, family_income)
+
+
+
+```
+
+
+```{r arrange2-solution, exercise.reveal_solution = TRUE}
+#Solution
+hsls_clean %>% arrange(sports, family_income)
+
+```
