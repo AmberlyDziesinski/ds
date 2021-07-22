@@ -9,6 +9,7 @@ output: html_document
 ```{r}
 library(devtools)
 install_github('AmberlyDziesinski/ds')
+#install_github(wdyoyle42/vandy_ds1000/ds_packages/ds)
 library(ds)
 
 #Data files
@@ -20,6 +21,9 @@ data("vote_sen_states")
 data("hsls_clean")
 data("book")
 data("sisfcf")
+data("covid_cases")
+data("covid_death")
+data("covid_mask")
 
 #Data help files
 ?vote_gov_states
@@ -30,6 +34,10 @@ data("sisfcf")
 ?hsls_clean
 ?book
 ?sisfcf
+?covid_cases
+?covid_death
+?covid_mask
+
 
 #Tutorials
 learnr::run_tutorial("conditional_means", "ds")

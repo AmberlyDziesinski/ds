@@ -29,7 +29,12 @@
 # sisfcf <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\ICPSR_04572\\SISFCF.dta")
 # usethis::use_data(sisfcf, overwrite = TRUE)
 
-
+# covid_cases <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\covid\\covid_cases.dta")
+# usethis::use_data(covid_cases, overwrite = TRUE)
+# covid_death <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\covid\\covid_death.dta")
+# usethis::use_data(covid_death, overwrite = TRUE)
+# covid_mask <- read_dta(file = "C:\\Users\\amber\\Documents\\data_sci\\covid\\covid_mask.dta")
+# usethis::use_data(covid_mask, overwrite = TRUE)
 
 ##R files
 #hsls <- load(file = "C:\\Users\\amber\\Documents\\data_sci\\hsls_data\\hsls.rda")

@@ -1,0 +1,30 @@
+#'
+#' Confirmed Covid Cases
+#'
+#' Loads clean version of USA Facts's confirmed covid data into the environment.
+#' @usage data(covid_cases)
+#'
+#' @format
+#' Data are structured as one observation per county.
+#' Variables include:
+#' \describe{
+#'   \item{county_fips}{County FIPS code (unique ID)}
+#'   \item{county_name}{County name}
+#'   \item{state}{State Name}
+#'   \item{state_fips}{State FIPS code (unique ID)}
+#'   \item{jan22}{Number of confirmed covid cases on January 22,2020}
+#'  }
+#'
+#' @details
+#' These data track COVID-19 cases by county from January 22,2020 to May 21, 2020
+#'
+#'
+#' @source
+#' These data were combiled by Will Doyle and downloaded from:
+#' \url{https://github.com/wdoyle42/ya_covid_dash}
+#' Data were originally sourced from USA Facts
+#' \url{https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/}
+#'
+
+
+"covid_cases"
